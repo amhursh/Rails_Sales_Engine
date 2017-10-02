@@ -1,8 +1,9 @@
 require 'csv'
+require 'pry'
 
 
 namespace :csv_maker do
-  task :create_database do
+  task :create_database => :environment do
 
     data = File.read('data/customers.csv')
     csv = CSV.parse(data, :headers => true)
@@ -16,25 +17,26 @@ namespace :csv_maker do
       Merchant.create!(row.to_hash)
     end
 
-    data = File.read('/data/items.csv')
+    data = File.read('data/items.csv')
     csv = CSV.parse(data, :headers => true)
     csv.each do |row|
       Item.create!(row.to_hash)
     end
 
-    data = File.read('/data/invoices.csv')
+    data = File.read('data/invoices.csv')
     csv = CSV.parse(data, :headers => true)
+
     csv.each do |row|
       Invoice.create!(row.to_hash)
     end
 
-    data = File.read('/data/transactions.csv')
+    data = File.read('data/transactions.csv')
     csv = CSV.parse(data, :headers => true)
     csv.each do |row|
       Transaction.create!(row.to_hash)
     end
 
-    data = File.read('/data/invoice_items.csv')
+    data = File.read('data/invoice_items.csv')
     csv = CSV.parse(data, :headers => true)
     csv.each do |row|
       Invoice_item.create!(row.to_hash)

@@ -1,3 +1,3 @@
 class InvoiceItem < ApplicationRecord
-  belongs_to :invoice_id
+  belongs_to :invoice
 end

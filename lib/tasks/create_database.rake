@@ -39,7 +39,7 @@ namespace :csv_maker do
     data = File.read('data/invoice_items.csv')
     csv = CSV.parse(data, :headers => true)
     csv.each do |row|
-      Invoice_item.create!(row.to_hash)
+      InvoiceItem.create!(row.to_hash)
     end
 
   end

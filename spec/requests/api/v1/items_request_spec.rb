@@ -72,10 +72,10 @@ describe "Items API" do
 
     expect(item["description"]).to eq item3.description
 
-    get "/api/v1/items/find?unit_price=#{item3.merchant_id}"
+    get "/api/v1/items/find?merchant_id=#{item2.merchant_id}"
 
     item = JSON.parse(response.body)
 
-    expect(item["id"]).to eq item1.id
+    expect(item["id"]).to eq item2.id
   end
 end

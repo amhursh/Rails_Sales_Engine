@@ -69,4 +69,49 @@ describe "Invoices API" do
 
     expect(second_invoice["id"]).to eq invoice1.id
   end
+
+  it "can find all invoices by params" do
+    customer1, customer2 = create_list(:customer, 2)
+    merchant1, merchant2 = create_list(:merchant, 2)
+
+    invoice1 = create(:invoice,
+                      customer: customer1,
+                      merchant: merchant1,
+                      created_at: "2017-05-20 00:00:00 UTC",
+                      updated_at: "2017-05-21 00:00:00 UTC",
+                      status: "shipped"
+                      )
+    invoice2 = create(:invoice,
+                      customer: customer2,
+                      merchant: merchant2,
+                      created_at: "2017-04-20 00:00:00 UTC",
+                      updated_at: "2017-04-21 00:00:00 UTC",
+                      status: "cancelled"
+                      )
+    invoice3 = create(:invoice,
+                      customer: customer1,
+                      merchant: merchant2,
+                      created_at: "2017-03-20 00:00:00 UTC",
+                      updated_at: "2017-03-21 00:00:00 UTC",
+                      status: "shipped"
+                      )
+
+    get "/api/v1/invoices/find_all?status=shipped"
+
+    invoices = JSON.parse(response.body)
+
+    expect(invoices.count).to eq 2
+
+    get "/api/v1/invoices/find_all?customer_id=#{customer1.id}"
+
+    invoices = JSON.parse(response.body)
+
+    expect(invoices.count).to eq 2
+
+    get "/api/v1/invoices/find_all?merchant_id=#{merchant1.id}"
+
+    invoices = JSON.parse(response.body)
+
+    expect(invoices["id"]).to eq invoice1.id
+  end
 end

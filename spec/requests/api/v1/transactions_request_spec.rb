@@ -34,4 +34,26 @@ describe "Transactions API" do
     end
   end
 
+  context "GET /transactions/find?params" do
+    it "returns a single transaction from params" do
+      customer = create(:customer)
+      merchant = create(:merchant)
+      invoice1 = create(:invoice, merchant_id: merchant.id, customer_id: customer.id)
+      invoice2 = create(:invoice, merchant_id: merchant.id, customer_id: customer.id)
+      transaction1 = create(:transaction, invoice_id: invoice1.id)
+      transaction2 = create(:transaction, invoice_id: invoice2.id)
+
+      get "/api/v1/transactions/find?id=#{transaction1.id}"
+
+      expect(response).to be_success
+      expect(JSON.parse(response.body)["invoice_id"]).to eq(transaction1.invoice_id)
+
+      get "/api/v1/transactions/find?invoice_id=#{transaction2.invoice_id}"
+
+      expect(response).to be_success
+      expect(JSON.parse(response.body)["invoice_id"]).to eq(transaction2.invoice_id)
+
+    end
+  end
+
 end

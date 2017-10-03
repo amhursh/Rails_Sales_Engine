@@ -25,8 +25,9 @@ describe "Invoices API" do
 
 		invoice = JSON.parse(response.body)
 
-		binding.pry
-
 		expect(response).to be_success
+		expect(invoice["id"]).to eq invoice2.id
+		expect(invoice["id"]).to_not eq invoice1.id
+		expect(invoice["id"]).to_not eq invoice3.id
 	end
 end

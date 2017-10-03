@@ -145,6 +145,6 @@ describe "Invoices API" do
 
     invoice = JSON.parse(response.body)
 
-    Invoice.pluck(:id).include(invoice["id"])
+    expect(Invoice.pluck(:id)).to include(invoice["id"])
   end
 end

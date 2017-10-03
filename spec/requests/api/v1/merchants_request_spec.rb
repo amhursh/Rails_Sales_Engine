@@ -16,7 +16,7 @@ describe "Merchants API" do
   end
 
   context "GET /merchants/id" do
-    it "returns a single transaction" do
+    it "returns a single merchant" do
       merchant = create(:merchant)
 
       get "/api/v1/merchants/#{merchant.id}"

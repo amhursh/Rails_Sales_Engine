@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Invoice Index API" do
+describe "Invoices API" do
 	it "sends a list of all invoices" do
 		customer = create(:customer)
 		merchant = create(:merchant)

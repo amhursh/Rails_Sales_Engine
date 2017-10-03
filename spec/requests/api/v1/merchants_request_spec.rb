@@ -15,6 +15,15 @@ describe "Merchants API" do
     end
   end
 
-  context "GET /merchant/id"
+  context "GET /merchants/id" do
+    it "returns a single merchant" do
+      merchant = create(:merchant)
+
+      get "/api/v1/merchants/#{merchant.id}"
+
+      expect(response).to be_success
+      expect(JSON.parse(response.body)["id"]).to eq(merchant.id)
+    end
+  end
 
 end

@@ -28,6 +28,6 @@ describe "Items API" do
     expect(item["name"]).to eq item3.name
     expect(item["description"]).to eq item3.description
     expect(item["merchant_id"]).to eq merchant.id
-    expect(item["unit_price"]).to eq item3.unit_price
+    expect(item["unit_price"]).to eq (item3.unit_price / 100.0).to_s
   end
 end

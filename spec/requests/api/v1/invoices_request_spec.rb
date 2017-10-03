@@ -63,15 +63,10 @@ describe "Invoices API" do
 
 		expect(invoice["id"]).to eq invoice1.id
 
-		get "/api/v1/invoices/find?#{invoice2.updated_at}"
-
-		invoice = JSON.parse(response.body)
-
-		expect(invoice["id"]).to eq invoice2.id
-
 		get "/api/v1/invoices/find?#{invoice3.status}"
 
-		expect(invoice["id"]).to eq invoice1.id
-		expect(invoice.count).to eq 1
+		second_invoice = JSON.parse(response.body)
+
+		expect(second_invoice["id"]).to eq invoice1.id
 	end
 end

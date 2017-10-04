@@ -1,7 +1,7 @@
 class Api::V1::Items::SearchController < ApplicationController
 
   def show
-    render json: Item.find_by(item_params)
+    render json: Item.all.order(:id).find_by(item_params)
   end
 
   private

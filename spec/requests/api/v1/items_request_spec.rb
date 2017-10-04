@@ -120,4 +120,34 @@ describe "Items API" do
 
     expect(items.count).to eq 1
   end
+
+  it "can find random item" do
+    merchant = create(:merchant)
+    merchant2 = create(:merchant)
+
+    item1 = create(:item,
+                   name: "Aaron",
+                   description: "something",
+                   unit_price: 3000,
+                   merchant_id: merchant.id,
+                   )
+    item2 = create(:item,
+                   name: "JP",
+                   description: "coolbeans",
+                   unit_price: 5000,
+                   merchant_id: merchant2.id,
+                   )
+    item3 = create(:item,
+                   name: "Aaron",
+                   description: "whatthehell",
+                   unit_price: 9000,
+                   merchant_id: merchant.id,
+                   )
+
+    get "/api/v1/items/random"
+
+    item = JSON.parse(response.body)
+
+    expect(Item.pluck(:id)).to include(item["id"])
+  end
 end

@@ -15,7 +15,8 @@ Rails.application.routes.draw do
         get '/find', to: 'search#show'
         get '/find_all', to: 'search#index'
         get '/random', to: 'random#show'
-        get '/revenue', to: 'revenue#show'
+        get '/revenue', to: 'revenue_by_date_all#show'
+        get '/most_revenue', to: 'top_revenue#index'
       end
       namespace :transactions do
         get '/find', to: 'search#show'

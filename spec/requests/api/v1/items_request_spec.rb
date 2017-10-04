@@ -78,4 +78,46 @@ describe "Items API" do
 
     expect(item["id"]).to eq item2.id
   end
+
+  it "can find all invoices by params" do
+    merchant = create(:merchant)
+    merchant2 = create(:merchant)
+
+    item1 = create(:item,
+                   name: "Aaron",
+                   description: "something",
+                   unit_price: 3000,
+                   merchant_id: merchant.id,
+                   )
+    item2 = create(:item,
+                   name: "JP",
+                   description: "coolbeans",
+                   unit_price: 5000,
+                   merchant_id: merchant2.id,
+                   )
+    item3 = create(:item,
+                   name: "Aaron",
+                   description: "whatthehell",
+                   unit_price: 9000,
+                   merchant_id: merchant.id,
+                   )
+
+    get "/api/v1/items/find_all?merchant_id=#{merchant.id}"
+
+    items = JSON.parse(response.body)
+
+    expect(items.count).to eq 2
+
+    get "/api/v1/items/find_all?name=#{item1.name}"
+
+    items = JSON.parse(response.body)
+
+    expect(items.count).to eq 2
+
+    get "/api/v1/items/find_all?name=#{item2.name}"
+
+    items = JSON.parse(response.body)
+
+    expect(items.count).to eq 1
+  end
 end

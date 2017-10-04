@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :transaction do
-    invoice nil
-    credit_card_number "MyString"
-    credit_card_expiration_date "MyString"
-    result 1
+    invoice
+    credit_card_number "ccnum"
+    credit_card_expiration_date "ccexp"
+    result "success"
   end
 end

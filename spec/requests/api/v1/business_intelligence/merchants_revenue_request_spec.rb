@@ -15,18 +15,19 @@ describe "Merchants Revenue API" do
     inv_item3 = create(:invoice_item, invoice: invoice3)
 
     merchant2.invoices.each do |invoice|
-      invoice.update(created_at: DateTime.now)
+      invoice.update(created_at: ("2012-03-16 11:55:05").to_datetime)
     end
     merchant1.invoices.each do |invoice|
       invoice.update(created_at: DateTime.yesterday)
     end
 
-    date = merchant2.invoices.first.created_at.strftime("%Y-%m-%d %H:%M:%S")
+    date = "2012-03-16 11:55:05"
 
     get "/api/v1/merchants/revenue?date=#{date}"
 
     revenue = JSON.parse(response.body)
 
     expect(response).to be_success
+    expect(revenue["total"]).to eq 2000
   end
 end

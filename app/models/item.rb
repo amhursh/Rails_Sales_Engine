@@ -6,7 +6,7 @@ class Item < ApplicationRecord
   default_scope { order(:id) }
 
   def self.most_items(quantity)
-    Item.find_by_sql(
+    Item.unscoped.find_by_sql(
     "SELECT items.*, sum(invoice_items.quantity) AS quantity
       FROM items
       JOIN invoice_items

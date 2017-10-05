@@ -12,12 +12,12 @@ describe "Items API" do
     invoice1 = create(:invoice, customer: customer, merchant: merchant1)
     invoice2 = create(:invoice, customer: customer, merchant: merchant2)
     invoice3 = create(:invoice, customer: customer, merchant: merchant3)
-    transact1 = create(:transaction, invoice: invoice1, result: 'success')
-    transact2 = create(:transaction, invoice: invoice2, result: 'success')
-    transact3 = create(:transaction, invoice: invoice3, result: 'failed')
-    inv_item1 = create(:invoice_item, invoice: invoice1, item: item1, quantity: 10)
-    inv_item2 = create(:invoice_item, invoice: invoice2, item: item2, quantity: 5)
-    inv_item3 = create(:invoice_item, invoice: invoice3, item: item3, quantity: 20)
+    create(:transaction, invoice: invoice1, result: 'success')
+    create(:transaction, invoice: invoice2, result: 'success')
+    create(:transaction, invoice: invoice3, result: 'failed')
+    create(:invoice_item, invoice: invoice1, item: item1, quantity: 10)
+    create(:invoice_item, invoice: invoice2, item: item2, quantity: 5)
+    create(:invoice_item, invoice: invoice3, item: item3, quantity: 20)
 
 
     get '/api/v1/merchants/most_items?quantity=3'

@@ -78,7 +78,7 @@ describe "Merchants API" do
       get "/api/v1/merchants/random"
 
       expect(response).to be_success
-      expect(JSON.parse(response.body)["name"]).to eq(merchant1.name || merchant2.name)
+      expect(JSON.parse(response.body)["name"]).to eq(merchant1.name).or eq(merchant2.name)
     end
   end
 

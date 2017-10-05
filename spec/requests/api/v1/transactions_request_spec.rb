@@ -105,8 +105,7 @@ describe "Transactions API" do
       transaction = JSON.parse(response.body)
 
       expect(response).to be_success
-      # binding.pry
-      # expect(transaction["id"]).to eq(transaction1.id || transaction2.id)
+      expect(transaction["id"]).to eq(transaction1.id).or eq(transaction2.id)
     end
   end
 

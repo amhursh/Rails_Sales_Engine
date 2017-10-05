@@ -32,4 +32,21 @@ class Item < ApplicationRecord
     .limit(quantity)
   end
 
+  def self.most_items(quantity)
+    Merchant.find_by_sql(
+    "SELECT merchants.*, sum(invoice_items.quantity) AS quantity
+      FROM merchants
+      JOIN invoices
+          ON merchants.id = invoices.merchant_id
+      JOIN invoice_items
+          ON invoices.id = invoice_items.invoice_id
+      JOIN transactions
+          ON transactions.invoice_id = invoices.id
+      WHERE transactions.result = 'success'
+      GROUP BY merchants.id
+      ORDER BY quantity DESC
+      LIMIT #{quantity};"
+    )
+  end
+
 end

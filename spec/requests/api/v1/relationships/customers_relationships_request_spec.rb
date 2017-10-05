@@ -16,10 +16,16 @@ describe "Customers Relationships API" do
 
   it "returns a collection of associated transactions" do
     customer = create(:customer)
+    customer2 = create(:customer)
     merchant = create(:merchant)
     create_list(:invoice, 5, customer: customer, merchant: merchant)
+    create_list(:invoice, 5, customer: customer2, merchant: merchant)
 
     customer.invoices.each do |invoice|
+      2.times { create(:transaction, invoice: invoice) }
+    end
+
+    customer2.invoices.each do |invoice|
       2.times { create(:transaction, invoice: invoice) }
     end
 

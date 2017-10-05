@@ -14,7 +14,11 @@ describe "Customers with Pending Invoices API" do
       create(:transaction, invoice: invoice, result: "success")
     end
 
-    invoice4.transactions.update(result: "failed")
+    customer2.invoices.each do |invoice|
+      invoice.transactions.update(result: "failed")
+    end
+
+    invoice7.transactions.update(result: "failed")
 
     get "/api/v1/merchants/#{merchant.id}/customers_with_pending_invoices"
 

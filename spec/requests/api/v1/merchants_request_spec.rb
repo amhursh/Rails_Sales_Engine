@@ -44,21 +44,42 @@ describe "Merchants API" do
     end
   end
 
-  # # relationship endpoint
-  # context "GET /merchants/:id/items" do
-  #   it "returns all items for a merchant" do
-      # merchant1 = create(:merchant, name: "Bob")
-      # merchant2 = create(:merchant, name: "Not Bob")
-  #     item1 = create(:item, merchant_id: merchant1.id, name: "Item1")
-  #     item2 = create(:item, merchant_id: merchant1.id, name: "Item2")
-  #     item3 = create(:item, merchant_id: merchant2.id, name: "Item3")
-  #
-  #     get "/api/v1/merchants/#{merchant1.id}/items"
-  #     binding.pry
-  #     expect(response).to be_success
-  #
-  #     expect(JSON.parse(response.body)["id"]).to eq(merchant.id)
-  #   end
-  # end
+  context "GET /merchants/find_all?params" do
+    it "returns a multiple merchants from params" do
+      merchant1 = create(:merchant, name: "Bob", created_at: "2017-04-20 00:00:00 UTC")
+      merchant2 = create(:merchant, name: "Not Bob", created_at: "2017-04-20 00:00:00 UTC")
+      merchant3 = create(:merchant, name: "Maybe Bob")
+
+      get "/api/v1/merchants/find_all?created_at=#{merchant1.created_at}"
+
+      merchants = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(merchants.count).to eq(2)
+      expect(merchants.first["name"]).to eq(merchant1.name)
+      expect(merchants.second["name"]).to eq(merchant2.name)
+
+      get "/api/v1/merchants/find_all?name=#{merchant3.name}"
+
+      merchant = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(merchant.first["name"]).to eq(merchant3.name)
+
+    end
+  end
+
+
+  context "GET /merchants/random" do
+    it "returns a random merchant" do
+      merchant1 = create(:merchant, name: "Bob")
+      merchant2 = create(:merchant, name: "Not Bob")
+
+      get "/api/v1/merchants/random"
+
+      expect(response).to be_success
+      expect(JSON.parse(response.body)["name"]).to eq(merchant1.name).or eq(merchant2.name)
+    end
+  end
 
 end

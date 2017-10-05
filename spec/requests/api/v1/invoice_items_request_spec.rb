@@ -98,17 +98,16 @@ describe "Invoice Items API" do
       merchant = create(:merchant)
       item = create(:item)
       invoice1, invoice2 = create_list(:invoice, 2, merchant_id: merchant.id, customer_id: customer.id)
-      invoice_item1 = create(:invoice_item, invoice_id: invoice1.id, item: item, quantity: 5, unit_price: 1000)
-      invoice_item2 = create(:invoice_item, invoice_id: invoice2.id, item: item, quantity: 5, unit_price: 1500)
-      invoice_item3 = create(:invoice_item, invoice_id: invoice2.id, item: item, quantity: 5, unit_price: 1500)
+      invoice_item1 = create(:invoice_item, invoice_id: invoice1.id, item: item)
+      invoice_item2 = create(:invoice_item, invoice_id: invoice2.id, item: item)
 
       get "/api/v1/invoice_items/random"
 
-      invoice_items = JSON.parse(response.body)
+      invoice_item = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(invoice_items.class).to eq(Hash)
-
+      expect(invoice_item["id"]).to eq(invoice_item1.id).or eq(invoice_item2.id)
     end
   end
+  
 end

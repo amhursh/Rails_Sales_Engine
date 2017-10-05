@@ -12,7 +12,7 @@
   * cd into it
   * ```bundle install```
   * ```rake db:setup```
-  * ```rake csv_maker:create_database```
+  * ```rake seed:create_database```
 
 ## Authors
 

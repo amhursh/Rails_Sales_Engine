@@ -26,12 +26,3 @@ describe 'Merchants Favorite Customer API' do
     expect(fav_cust["id"]).to eq customer2.id
   end
 end
-
-# GET /api/v1/merchants/:id/favorite_customer
-
-# customers x 3
-# merchant
-# invoices x 9
-# transactions x 9
-
-# customers --join-> invoices --join-> transactions

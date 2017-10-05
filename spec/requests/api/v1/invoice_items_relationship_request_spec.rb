@@ -16,14 +16,14 @@ describe "Invoice Items Relationships API" do
       invoice_items = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(invoice_items["id"]).to eq(invoice_item1.id)
+      expect(invoice_items["id"]).to eq(invoice1.id)
 
       get "/api/v1/invoice_items/#{invoice_item2.id}/invoice"
 
       invoice_items = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(invoice_items["id"]).to eq(invoice_item2.id)
+      expect(invoice_items["id"]).to eq(invoice2.id)
     end
   end
 

@@ -94,4 +94,44 @@ describe "Merchants Revenue API" do
     expect(revenue["revenue"]).to eq 2000
 
   end
+
+  it "sends the total revenue for a single merchant by date" do
+    merchant1, merchant2 = create_list(:merchant, 2)
+    customer = create(:customer)
+    invoice1 = create(:invoice, customer: customer, merchant: merchant1, created_at: "2012-03-16 11:55:05")
+    invoice2 = create(:invoice, customer: customer, merchant: merchant1, created_at: "2012-03-16 11:55:05")
+    invoice3 = create(:invoice, customer: customer, merchant: merchant1, created_at: "2012-03-07 10:54:55")
+    invoice4 = create(:invoice, customer: customer, merchant: merchant2, created_at: "2012-03-07 10:54:55")
+    transact1 = create(:transaction, invoice: invoice1)
+    transact2 = create(:transaction, invoice: invoice2)
+    transact3 = create(:transaction, invoice: invoice3)
+    transact3 = create(:transaction, invoice: invoice4)
+    inv_item1 = create(:invoice_item, invoice: invoice1)
+    inv_item2 = create(:invoice_item, invoice: invoice2)
+    inv_item3 = create(:invoice_item, invoice: invoice3)
+    inv_item3 = create(:invoice_item, invoice: invoice4)
+
+
+    get "/api/v1/merchants/#{merchant1.id}/revenue?date=#{invoice1.created_at}"
+
+    revenue = JSON.parse(response.body)
+
+    expect(response).to be_success
+    expect(revenue["revenue"]).to eq 2000
+
+    get "/api/v1/merchants/#{merchant1.id}/revenue?date=#{invoice3.created_at}"
+
+    revenue = JSON.parse(response.body)
+
+    expect(response).to be_success
+    expect(revenue["revenue"]).to eq 1000
+
+    get "/api/v1/merchants/#{merchant2.id}/revenue?date=#{invoice1.created_at}"
+
+    revenue = JSON.parse(response.body)
+
+    expect(response).to be_success
+    expect(revenue["revenue"]).to eq 0
+
+  end
 end

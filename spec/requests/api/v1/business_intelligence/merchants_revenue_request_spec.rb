@@ -64,4 +64,34 @@ describe "Merchants Revenue API" do
     expect(merchants.first["id"]).to eq merchant3.id
     expect(merchants.last["id"]).to eq merchant2.id
   end
+
+  it "sends the total revenue for a single merchant" do
+    merchant1, merchant2 = create_list(:merchant, 2)
+    customer = create(:customer)
+    invoice1 = create(:invoice, customer: customer, merchant: merchant1)
+    invoice2 = create(:invoice, customer: customer, merchant: merchant2)
+    invoice3 = create(:invoice, customer: customer, merchant: merchant2)
+    transact1 = create(:transaction, invoice: invoice1)
+    transact2 = create(:transaction, invoice: invoice2)
+    transact3 = create(:transaction, invoice: invoice3)
+    inv_item1 = create(:invoice_item, invoice: invoice1)
+    inv_item2 = create(:invoice_item, invoice: invoice2)
+    inv_item3 = create(:invoice_item, invoice: invoice3)
+
+
+    get "/api/v1/merchants/#{merchant1.id}/revenue"
+
+    revenue = JSON.parse(response.body)
+
+    expect(response).to be_success
+    expect(revenue["revenue"]).to eq 1000
+
+    get "/api/v1/merchants/#{merchant2.id}/revenue"
+
+    revenue = JSON.parse(response.body)
+
+    expect(response).to be_success
+    expect(revenue["revenue"]).to eq 2000
+
+  end
 end

@@ -2,7 +2,7 @@ require 'csv'
 require 'pry'
 
 
-namespace :csv_maker do
+namespace :seed do
   task :create_database => :environment do
 
     data = File.read('data/customers.csv')

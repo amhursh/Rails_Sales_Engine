@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe "Items API" do
-  it "sends a list of all items" do
+describe "Merchant BI most_items API" do
+  it "sends a list of the merchants that sold the most items" do
     customer = create(:customer)
     merchant1 = create(:merchant)
     merchant2 = create(:merchant)

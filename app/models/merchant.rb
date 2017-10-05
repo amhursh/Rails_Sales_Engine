@@ -14,6 +14,7 @@ class Merchant < ApplicationRecord
 
   def self.most_revenue(quantity)
     joins(invoices: [:invoice_items, :transactions])
+    .merge(Transaction.success)
     .select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
     .group(:id)
     .order("revenue DESC")
@@ -59,5 +60,22 @@ class Merchant < ApplicationRecord
     )
   end
 
+  def customers_with_pending_invoices
+    Customer.find_by_sql(
+      "SELECT customers.* FROM customers
+      INNER JOIN invoices ON invoices.customer_id = customers.id
+      INNER JOIN merchants ON invoices.merchant_id = merchants.id
+      INNER JOIN transactions ON transactions.invoice_id = invoices.id
+      WHERE merchants.id = #{id}
+      AND transactions.result = 'failed'
+      EXCEPT
+      SELECT customers.* FROM customers
+      INNER JOIN invoices ON invoices.customer_id = customers.id
+      INNER JOIN merchants ON invoices.merchant_id = merchants.id
+      INNER JOIN transactions ON transactions.invoice_id = invoices.id
+      WHERE merchants.id = #{id}
+      AND transactions.result = 'success'" 
+      )
+  end
 
 end

@@ -23,8 +23,9 @@ class Item < ApplicationRecord
   end
 
   def self.most_revenue(quantity)
-    joins(invoices: [:invoice_items, :transactions])
-    .merge(Transaction.unscoped.success)
+    unscoped
+    .joins(invoices: [:invoice_items, :transactions])
+    .merge(Transaction.success)
     .select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
     .group(:id)
     .order("revenue DESC")

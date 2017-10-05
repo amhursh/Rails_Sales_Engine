@@ -20,6 +20,9 @@ class Merchant < ApplicationRecord
     .limit(quantity)
   end
 
+  def revenue
+    invoices.joins(:transactions, :invoice_items).merge(Transaction.success).sum("invoice_items.unit_price * invoice_items.quantity")
+
   def favorite_customer
     customers.joins(:transactions)
     .where(invoices: {merchant_id: id})

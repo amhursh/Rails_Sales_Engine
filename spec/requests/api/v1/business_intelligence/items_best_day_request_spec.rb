@@ -21,7 +21,7 @@ describe "Items BI best_day API" do
     day = JSON.parse(response.body)
 
     expect(response).to be_success
-    expect(day.to_datetime).to eq(invoice1.created_at.to_datetime)
+    expect(day["best_day"].to_datetime).to eq(invoice1.created_at.to_datetime)
   end
 
 

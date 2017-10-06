@@ -12,6 +12,6 @@ FactoryGirl.define do
     unit_price {rand(1000)}
 
     merchant
-    
+
   end
 end

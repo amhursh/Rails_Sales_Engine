@@ -8,38 +8,44 @@ namespace :seed do
     data = File.read('data/customers.csv')
     csv = CSV.parse(data, :headers => true)
     csv.each do |row|
-      Customer.create(row.to_hash)
+      customer = Customer.create(row.to_hash)
+      puts "Creating Customer: #{customer.first_name}"
     end
 
     data = File.read('data/merchants.csv')
     csv = CSV.parse(data, :headers => true)
     csv.each do |row|
-      Merchant.create!(row.to_hash)
+      merchant = Merchant.create!(row.to_hash)
+      puts "Creating Merchant: #{merchant.name}"
     end
 
     data = File.read('data/items.csv')
     csv = CSV.parse(data, :headers => true)
     csv.each do |row|
-      Item.create!(row.to_hash)
+      item = Item.create!(row.to_hash)
+      puts "Creating Item: #{item.name}"
     end
 
     data = File.read('data/invoices.csv')
     csv = CSV.parse(data, :headers => true)
-
     csv.each do |row|
-      Invoice.create!(row.to_hash)
+      invoice = Invoice.create!(row.to_hash)
+      puts "Creating Invoice: #{invoice.id}"
     end
 
     data = File.read('data/transactions.csv')
     csv = CSV.parse(data, :headers => true)
     csv.each do |row|
-      Transaction.create!(row.to_hash)
+      transaction = Transaction.create!(row.to_hash)
+      puts "Creating Transaction: #{transaction.id}"
+
     end
 
     data = File.read('data/invoice_items.csv')
     csv = CSV.parse(data, :headers => true)
     csv.each do |row|
-      InvoiceItem.create!(row.to_hash)
+      ii = InvoiceItem.create!(row.to_hash)
+      puts "Creating InvoiceItem: #{ii.id}"
     end
 
   end

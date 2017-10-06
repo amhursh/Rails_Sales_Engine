@@ -28,7 +28,7 @@ describe "Merchants Revenue API" do
     revenue = JSON.parse(response.body)
 
     expect(response).to be_success
-    expect(revenue["total"]).to eq 2000
+    expect(revenue["total_revenue"]).to eq "20.0"
   end
 
   it "sends a given number of the top merchants by revenue" do
@@ -84,14 +84,14 @@ describe "Merchants Revenue API" do
     revenue = JSON.parse(response.body)
 
     expect(response).to be_success
-    expect(revenue["revenue"]).to eq 1000
+    expect(revenue["revenue"]).to eq "10.0"
 
     get "/api/v1/merchants/#{merchant2.id}/revenue"
 
     revenue = JSON.parse(response.body)
 
     expect(response).to be_success
-    expect(revenue["revenue"]).to eq 2000
+    expect(revenue["revenue"]).to eq "20.0"
 
   end
 
@@ -117,21 +117,21 @@ describe "Merchants Revenue API" do
     revenue = JSON.parse(response.body)
 
     expect(response).to be_success
-    expect(revenue["revenue"]).to eq 2000
+    expect(revenue["revenue"]).to eq "20.0"
 
     get "/api/v1/merchants/#{merchant1.id}/revenue?date=#{invoice3.created_at}"
 
     revenue = JSON.parse(response.body)
 
     expect(response).to be_success
-    expect(revenue["revenue"]).to eq 1000
+    expect(revenue["revenue"]).to eq "10.0"
 
     get "/api/v1/merchants/#{merchant2.id}/revenue?date=#{invoice1.created_at}"
 
     revenue = JSON.parse(response.body)
 
     expect(response).to be_success
-    expect(revenue["revenue"]).to eq 0
+    expect(revenue["revenue"]).to eq "0.0"
 
   end
 end

@@ -70,6 +70,8 @@ describe "Invoice Items API" do
       invoice_item2 = create(:invoice_item, invoice_id: invoice2.id, item: item, quantity: 5, unit_price: 1500)
       invoice_item3 = create(:invoice_item, invoice_id: invoice2.id, item: item, quantity: 2, unit_price: 1500)
 
+      unit_price1 = "15.00"
+
       get "/api/v1/invoice_items/find_all?quantity=#{invoice_item1.quantity}"
 
       invoice_items = JSON.parse(response.body)
@@ -84,7 +86,7 @@ describe "Invoice Items API" do
       expect(invoice_items.count).to eq(2)
       expect(invoice_items.last["id"]).to eq(invoice_item3.id)
 
-      get "/api/v1/invoice_items/find_all?unit_price=#{invoice_item3.unit_price}"
+      get "/api/v1/invoice_items/find_all?unit_price=#{unit_price1}"
 
       invoice_items = JSON.parse(response.body)
       expect(invoice_items.count).to eq(2)
